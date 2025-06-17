@@ -46,4 +46,28 @@ minionsRouter.get('/:minionId', (req, res, next) => {
     }   
 })
 
+// Update a single minion by ID
+minionsRouter.put('/:minionId', (req, res, next) => {
+    const id = req.params.minionId
+    req.body.id = id
+    const updatedMinion = updateInstanceInDatabase('minions', req.body)
+    if (updatedMinion) {
+        res.status(200).send(updatedMinion);;
+    } else {
+        res.status(404).send({ message: `Minion ${id} not found or invalid data` });
+    }
+})
+
+// Delete a single minion by ID
+minionsRouter.delete('/:minionId', (req, res, next) => {
+    const id = req.params.minionId
+    const deleted = deleteFromDatabasebyId('minions', id);
+    if(deleted) {
+        // status 204 won't return any content but indicates success
+        res.status(204).send(); 
+    } else {
+        res.status(404).send({ message: `Minion ${id} not found` });
+    }
+})
+
 module.exports = minionsRouter;
