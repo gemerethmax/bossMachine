@@ -2,13 +2,11 @@ const express = require('express');
 const ideasRouter = express.Router();
 
 const {
-  createMeeting,
   getAllFromDatabase,
   getFromDatabaseById,
   addToDatabase,
   updateInstanceInDatabase,
   deleteFromDatabasebyId,
-  deleteAllFromDatabase,
 } = require('./db.js');
 
 
@@ -25,8 +23,9 @@ ideasRouter.get('/', (req, res, next) => {
 // Add a new idea
 ideasRouter.post('/', (req, res, next) => {
    
-    const newIdea = req.body;
-    const addedidea = addToDatabase('ideas', newIdea);
+   const ideas = getAllFromDatabase('ideas');
+   req.body.id = ideas.length ++
+    const addedidea = addToDatabase('ideas', req.body);
     if (addedidea) {
         res.status(201).send(addedidea);
     } else {
