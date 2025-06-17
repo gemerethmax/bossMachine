@@ -15,7 +15,7 @@ const {
 minionsRouter.get('/', (req, res, next) => { 
     const minions = getAllFromDatabase('minions');
     if (minions) {
-       res.status(200).send(minions);
+       res.status(200).send(minions)
     } else {
         res.status(404).send({ message: 'No minions found' });
     }
@@ -61,10 +61,10 @@ minionsRouter.put('/:minionId', (req, res, next) => {
 // Delete a single minion by ID
 minionsRouter.delete('/:minionId', (req, res, next) => {
     const id = req.params.minionId
-    const deleted = deleteFromDatabasebyId('minions', id);
-    if(deleted) {
-        // status 204 won't return any content but indicates success
-        res.status(204).send(); 
+    const deletedMinion = deleteFromDatabasebyId('minions', id);
+    if(deletedMinion) {
+        // Repsonse 204 doesn't return any content but indicates success
+        res.status(204).send();
     } else {
         res.status(404).send({ message: `Minion ${id} not found` });
     }
