@@ -1,5 +1,6 @@
 const express = require('express');
 const ideasRouter = express.Router();
+const checkMillionDollarIdea = require('./checkMillionDollarIdea.js');
 
 const {
   getAllFromDatabase,
@@ -21,7 +22,7 @@ ideasRouter.get('/', (req, res, next) => {
 })
 
 // Add a new idea
-ideasRouter.post('/', (req, res, next) => {
+ideasRouter.post('/', checkMillionDollarIdea, (req, res, next) => {
    
    const ideas = getAllFromDatabase('ideas');
    req.body.id = ideas.length ++
@@ -46,7 +47,7 @@ ideasRouter.get('/:ideaId', (req, res, next) => {
 })
 
 // Update a single idea by ID
-ideasRouter.put('/:ideaId', (req, res, next) => {
+ideasRouter.put('/:ideaId', checkMillionDollarIdea,  (req, res, next) => {
     const id = req.params.ideaId
     req.body.id = id
     const updatedIdea = updateInstanceInDatabase('ideas', req.body)
